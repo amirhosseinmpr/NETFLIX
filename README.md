@@ -2,9 +2,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, install package.json  depends on app  then run the app:
 
 ```bash
+install-package like => npm install
 npm run dev
 # or
 yarn dev
