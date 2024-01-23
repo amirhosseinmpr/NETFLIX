@@ -1,80 +1,64 @@
-
+// Set MongoDB as the provider for all models
 generator client {
   provider = "prisma-client-js"
 }
 
+// Set MongoDB as the provider for each model
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+// Account model for MongoDB
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
+id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @unique
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
-  refresh_token_expires_in Int?
-
+  refresh_token_expires_in   String?
+  
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
+// Session model for MongoDB
 model Session {
-  id           String   @id @default(cuid())
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
-  userId       String
+  userId       String     @unique
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// User model for MongoDB
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
 }
 
-model Movie {
-  id            Int         @id
-  imageString   String
-  title         String
-  age           Int
-  duration      Float
-  overview      String
-  release       Int
-  videoSource   String
-  category      String
-  youtubeString String
-  WatchLists    WatchList[]
-
-  createdAt DateTime @default(now())
-}
-
-model WatchList {
-  id     String @id @default(uuid())
-  userId String
-
-  Movie   Movie? @relation(fields: [movieId], references: [id])
-  movieId Int?
-}
-
+// VerificationToken model for MongoDB
 model VerificationToken {
+id              String       @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
-  token      String   @unique
+  token      String
   expires    DateTime
 
-  @@unique([identifier, token])
+  @@index([identifier, token], name: "unique_token") // Index to ensure uniqueness
+
+  // Other model-specific configurations if needed
 }
