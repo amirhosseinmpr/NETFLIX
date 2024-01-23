@@ -62,3 +62,26 @@ id              String       @id @default(auto()) @map("_id") @db.ObjectId
 
   // Other model-specific configurations if needed
 }
+
+
+model Movie {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  imageString  String
+  title        String
+  age          Int
+  duration     Float
+  overview     String
+  release      Int
+  videoSource  String
+  category     String
+  youtubeString String
+  createdAt    DateTime @default(now())
+  watchLists   WatchList[]  // Define the relation here
+}
+
+model WatchList {
+  id       String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  movieId   String?
+  movie     Movie?       @relation(fields: [movieId], references: [id])
+}
