@@ -8,8 +8,9 @@ First, install package.json  depends on app  then run the app:
 
 ```bash
 # install-package like
- npm install
+npm install
 npm run dev
+
 # or
 yarn dev
 # or
