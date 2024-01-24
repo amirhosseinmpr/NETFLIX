@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+![My Image](/public/netflix_logo.svg)
+
 ## Getting Started
 
 First, install package.json  depends on app  then run the app:
